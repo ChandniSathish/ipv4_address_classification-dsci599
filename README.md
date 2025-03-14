@@ -31,8 +31,8 @@ This repository explores how **machine learning** can characterize **IP address 
 
 <a name="repository-contents"></a>
 ## **2. Repository Contents**
-```plaintext
-.
+
+
 ├── data/
 │   ├── raw/               # Unprocessed raw CSV files (if provided)
 │   ├── processed/         # Cleaned or merged datasets after preprocessing
@@ -49,7 +49,7 @@ This repository explores how **machine learning** can characterize **IP address 
 │   └── logs/              # Logs from long-running scripts
 ├── README.md              # This file
 └── requirements.txt       # Python dependencies
-.
+---
 <a name="getting-started"></a>
 3. Getting Started
 Clone the Repository
