@@ -1,0 +1,14 @@
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+scipy
+networkx
+dnspython
+jupyter
+notebook
+ipython
+requests
+tqdm
+regex
