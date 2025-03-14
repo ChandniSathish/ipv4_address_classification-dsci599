@@ -49,3 +49,116 @@ This repository explores how **machine learning** can characterize **IP address 
 │   └── logs/              # Logs from long-running scripts
 ├── README.md              # This file
 └── requirements.txt       # Python dependencies
+
+<a name="getting-started"></a>
+
+3. Getting Started
+Clone the Repository
+
+bash
+Copy
+Edit
+git clone https://github.com/<username>/<repo-name>.git
+cd <repo-name>
+Create a Virtual Environment & Install Dependencies
+
+bash
+Copy
+Edit
+python3 -m venv venv
+source venv/bin/activate  # On Linux/Mac
+# or .\venv\Scripts\activate on Windows
+
+pip install -r requirements.txt
+Data Preparation
+
+Place your raw CSVs or archived data in data/raw/.
+Use the included Jupyter notebook dsci599.ipynb or the scripts/ directory scripts to preprocess and produce data/processed/ files.
+<a name="usage--scripts"></a>
+
+4. Usage & Scripts
+dsci599.ipynb
+
+A Jupyter notebook showcasing the core data-cleaning pipeline, feature engineering (availability, volatility, RTT stats), and preliminary clustering/classification results.
+To run:
+bash
+Copy
+Edit
+jupyter notebook notebooks/dsci599.ipynb
+Follow the notebook cells step-by-step to replicate the analysis and visualize results.
+cluster_analysis.py
+
+Performs unsupervised clustering (K-Means, DBSCAN) on the processed dataset.
+Command-line usage example:
+bash
+Copy
+Edit
+python scripts/cluster_analysis.py --data "data/processed/feature_set.csv" \
+  --method kmeans \
+  --clusters 4
+Outputs cluster labels, silhouette scores, and intermediate plots in results/.
+dns_lookup.py
+
+Bulk reverse DNS (PTR) lookups for each IP in data/processed/feature_set.csv.
+Extracts keywords such as nat, dhcp, etc., and augments the dataset with new labels for supervised learning.
+Example:
+bash
+Copy
+Edit
+python scripts/dns_lookup.py \
+  --input "data/processed/feature_set.csv" \
+  --output "data/processed/feature_set_dns.csv"
+train_model.py
+
+Trains a supervised classifier (RandomForest, XGBoost, etc.) using derived labels from dns_lookup.py plus features from cluster_analysis.py.
+Example:
+bash
+Copy
+Edit
+python scripts/train_model.py \
+  --input "data/processed/feature_set_dns.csv" \
+  --model randomforest
+Outputs confusion matrix, classification report, and feature importance plots in results/.
+<a name="data-description"></a>
+
+5. Data Description
+data/raw/: Contains raw IP-level probing results (availability, RTT samples).
+CSV format example:
+csv
+Copy
+Edit
+ip_address, availability, volatility, median_rtt, std_rtt
+8.8.8.8,   0.95,         0.85,       0.042,      0.010
+...
+data/processed/: Holds cleaned/combined datasets after removing outliers and merging with reverse DNS info.
+Important: Large data files are not tracked in this repo. If needed, place them in data/raw/ and mention them in .gitignore.
+
+<a name="results--outputs"></a>
+
+6. Results & Outputs
+Clustering Results: K-Means outputs cluster labels (e.g., always-up, rarely-up, high-latency, etc.).
+Supervised Classification: RandomForest or XGBoost confusion matrix, feature importances, and accuracy metrics.
+Graphs & Tables: Stored in results/figures/ and results/tables/, respectively.
+Example figure:
+
+Cluster	Availability (avg)	Volatility (avg)	RTT Median (avg)	Interpretation
+0	0.001	1.0	0.0007	Mostly unresponsive, ephemeral toggles
+1	0.996	1.0	0.045	Highly stable, moderate latency
+2	0.0008	0.5	0.170	Rarely online, but very high latency
+3	...	...	...	...
+<a name="future-work"></a>
+
+7. Future Work
+Refine Volatility Metrics: Investigate whether a near-1.0 value is due to single up/down events or a bug in the formula.
+Reverse-DNS Integration: Expand the scope of hostname-based labeling to catch more patterns (e.g., ppp, adsl, mobile).
+Time-Series Analysis: Collect data for multiple weeks or months, analyzing changes in usage patterns over longer intervals.
+Poster & Final Report: As part of Project C, finalize the method, results, and present them in a poster session.
+<a name="references"></a>
+
+8. References
+Cai, X., Heidemann, J., & Krishnamurthy, B. “Internet Address Utilization: Quantifying IPv4 Address Exhaustion and NAT Penetration.” In Proceedings of the 2010 ACM SIGCOMM Conference.
+Matthew Luckie, et al. “Learning Regex from DNS Hostnames to Classify Infrastructure.” IMC 2019.
+CAIDA Datasets. https://www.caida.org/data/.
+RIPE Atlas. https://atlas.ripe.net/.
+Maintainer: [Your Name] – Contact: your.email@university.edu
+© 2025 Your Organization. All rights reserved.
