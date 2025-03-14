@@ -30,29 +30,29 @@ git clone https://github.com/ChandniSathish/ipv4_address_classification-dsci599.
 ## **6. Results & Outputs**
 
 ### **Clustering Results**
-- K-Means outputs cluster labels categorizing IPs into groups such as:
-  - **Always-up**
-  - **Rarely-up**
-  - **High-latency**
-  - **Ephemeral IPs**
+
+
+
+### **Cluster Interpretation Table**
+| **Cluster** | **Count (IP addresses)** | **Availability (avg)** | **Volatility (avg)** | **RTT Median (avg) (ms)** | **RTT Std Dev (avg)** | **Interpretation** |
+|------------|---------------------|-----------------|----------------|----------------|----------------|--------------------|
+| 0          | ~7.94M               | 0.000464 (~0.046%)  | 0.9999 (very high) | 0.00072 (~0.7 ms) | 0.0718 | **Mostly unresponsive addresses.** Rarely up, possibly unassigned, firewalled, or ephemeral. Tiny RTT suggests very close router replies or artifacts. |
+| 1          | ~2.41M               | 0.996 (99.6% up) | 0.9999 | 45.0 | 0.072 | **Highly stable addresses.** Almost always up, moderate latency, likely servers, infrastructure IPs, or broadband connections. |
+| 2          | 94,864               | 0.000847 (~0.085%) | 0.9997 | 170.0 | 0.206 | **Rarely online, high latency.** High RTT and variability suggest satellite links, mobile networks, or remote regions. |
+
+---
+
+### **Overall Observations**
+- **All clusters show volatility close to 1.0.**  
+  - This might indicate that even a single probe response or missed probe results in a state change.
+  - Volatility formula should be reviewed to confirm it captures meaningful toggles rather than noise.
   
-### **Supervised Classification**
-- **RandomForest/XGBoost** performance metrics:
-  - **Confusion Matrix**
-  - **Feature Importances**
-  - **Accuracy, Precision, Recall, F1-Score**
+- **Median Up = 0 in all clusters.**  
+  - This suggests no IP was continuously “up” for multiple consecutive intervals.
+  - Possible reasons: data sampling artifacts, or the way median_up is computed.
+  - Further refinement in calculating **session lengths** may be needed.
 
-### **Graphs & Tables**
-- Visual results are stored in:
-  - **Figures Directory** → `results/figures/`
-  - **Tables Directory** → `results/tables/`
+---
 
-### **Example: Cluster Interpretation Table**
-| **Cluster** | **Availability (avg)** | **Volatility (avg)** | **RTT Median (avg)** | **Interpretation** |
-|------------|---------------------|-----------------|----------------|--------------------|
-| 0          | 0.001               | 1.0             | 0.0007         | Mostly unresponsive, ephemeral toggles |
-| 1          | 0.996               | 1.0             | 0.045          | Highly stable, moderate latency |
-| 2          | 0.0008              | 0.5             | 0.170          | Rarely online, but very high latency |
-| 3          | ...                 | ...             | ...            | ... |
 
 
