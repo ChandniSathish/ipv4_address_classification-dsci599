@@ -9,7 +9,7 @@ This project aims to **detect and classify IP addresses** (and address blocks) t
 We use **machine-learning (ML)** to analyze derived features (e.g., availability, volatility, median RTT) from large-scale active-probing data. Our goal is to move beyond traditional threshold-based methods (e.g., Cai et al.) and apply **clustering** and **classification** techniques to discover nuanced patterns.
 
 ## **Repository Contents**
-- **`dsci599.ipynb`**  
+- **`analyis-ipv4.ipynb`**  
   - A Jupyter notebook that includes:
     - **Data Cleaning**: Reads the large CSV with derived features, drops placeholders, handles NaNs.  
     - **Feature Engineering**: Refines `volatility` or `median_up` calculations.  
