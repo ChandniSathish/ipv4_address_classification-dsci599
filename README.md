@@ -25,17 +25,7 @@ We use **machine-learning (ML)** to analyze derived features (e.g., availability
     ```
     probe_addr, availability, volatility, median_up, median_rtt, std_rtt
     ```
-    *(Not included here but referenced in the notebook.)*
-
-- **`dns_lookup.py`** *(optional)*  
-  - A script to perform bulk **reverse DNS lookups** for IP labels.
-
-## **Installation & Setup**
-
-### **1. Clone the Repository**
-```bash
 git clone https://github.com/ChandniSathish/ipv4_address_classification-dsci599.git
-table of cluster interpretation:
 
 ## **6. Results & Outputs**
 
